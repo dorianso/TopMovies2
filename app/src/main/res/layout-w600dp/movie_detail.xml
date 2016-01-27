@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/movie_detail"
+    tools:context=".Fragments.MovieDetailFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#424242"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/imagePoster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitXY"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="7dp">
+
+            <TextView
+                android:id="@+id/textTitle"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:text="Title Text"
+                android:textColor="@android:color/background_light"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:typeface="normal"/>
+
+            <TextView
+                android:id="@+id/textReleaseDate"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7dp"
+                android:text="Release Date"
+                android:textColor="@android:color/background_light"
+                android:textSize="17dp"/>
+
+            <TextView
+                android:id="@+id/textAverageVote"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7dp"
+                android:text="Average Vote"
+                android:textColor="@android:color/background_light"
+                android:textSize="17dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+        <TextView
+            android:id="@+id/textPlot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollIndicators="right"
+            android:text="Plot "
+            android:textColor="#ffffff"
+            android:textSize="17dp"
+            android:textStyle="italic"
+            android:padding="7dp"
+            android:background="#424242"
+            android:layout_weight="1"
+            android:layout_gravity="fill_vertical"/>
+
+
+    </LinearLayout>
+
+</FrameLayout>
+

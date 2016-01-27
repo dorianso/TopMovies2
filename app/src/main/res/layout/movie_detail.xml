@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/movie_detail"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#424242"
+    android:orientation="vertical"
+    tools:context=".Fragments.MovieDetailFragment"
+    android:weightSum="2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:id="@+id/topLayer">
+
+
+        <ImageView
+            android:id="@+id/imagePoster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:layout_weight="1"
+            android:nestedScrollingEnabled="false"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="7dp"
+            android:layout_weight="1"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/textReleaseDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7dp"
+                android:text="Release Date"
+                android:textColor="@android:color/background_light"
+                android:textSize="17dp"
+                android:layout_weight="0"/>
+
+            <TextView
+                android:id="@+id/textAverageVote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7dp"
+                android:text="Average Vote"
+                android:textColor="@android:color/background_light"
+                android:textSize="17dp"
+                android:layout_weight="0"/>
+
+            <ScrollView
+                android:id="@+id/textAreaScroller"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_x="0px"
+                android:layout_y="25px"
+                android:scrollbars="vertical"
+                android:layout_weight="0">
+
+                <TextView
+                    android:id="@+id/textPlot"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Plot "
+                    android:textColor="#ffffff"
+                    android:textSize="17dp"
+                    android:textStyle="italic"
+                    android:autoText="false"
+                    android:maxHeight="250dp"/>
+            </ScrollView>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:id="@+id/bottomLayer">
+
+        <TextView
+            android:id="@+id/textDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#424242"
+            android:text="No Reviews Available"
+            android:textColor="#ffffff"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#424242">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonPlay"
+                android:src="@android:drawable/ic_media_play"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Trailers Available"
+                android:id="@+id/textTrailers"
+                android:textColor="#ffffff"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
