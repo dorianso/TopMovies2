@@ -8,15 +8,13 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import pottitrain.orianapps.topmovies2.Fragments.MovieDetailFragment;
-import pottitrain.orianapps.topmovies2.Interfaces.TMDBInterface;
 import pottitrain.orianapps.topmovies2.R;
-import pottitrain.orianapps.topmovies2.RetrofitService;
 
 /**
  * An activity representing a single Movie detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link MovieListActivity}.
+ * in a {@link MovieGridListActivity}.
  */
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -55,7 +53,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
 
-            navigateUpTo(new Intent(this, MovieListActivity.class));
+            navigateUpTo(new Intent(this, MovieGridListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

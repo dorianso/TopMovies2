@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:numColumns="2"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".Activities.MovieListActivity"
+    tools:context=".Activities.MovieGridListActivity"
     tools:listitem="@layout/movie_poster_content"
     >
     </GridView>

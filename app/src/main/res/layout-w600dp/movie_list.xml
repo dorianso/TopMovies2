@@ -9,7 +9,7 @@
               android:divider="?android:attr/dividerHorizontal"
               android:orientation="horizontal"
               android:showDividers="middle"
-              tools:context=".Activities.MovieListActivity">
+              tools:context=".Activities.MovieGridListActivity">
 
     <!--
     This layout is a two-pane layout for the Movies
@@ -25,7 +25,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="@dimen/item_width_tablet"
         android:layout_height="match_parent"
-        tools:context=".Activities.MovieListActivity"
+        tools:context=".Activities.MovieGridListActivity"
         tools:listitem="@layout/movie_poster_content"
         android:numColumns="3"></GridView>
 

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.MovieListActivity"
+            android:name=".Activities.MovieGridListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,12 +21,18 @@
         <activity
             android:name=".Activities.MovieDetailActivity"
             android:label="@string/title_movie_detail"
-            android:parentActivityName=".Activities.MovieListActivity"
+            android:parentActivityName=".Activities.MovieGridListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MovieListActivity"/>
+                android:value=".Activities.MovieGridListActivity"/>
         </activity>
+
+        <provider
+            android:authorities="com.orianapps.topmovies2.provider"
+            android:name=".Helpers.MoviesProvider"
+            android:exported="false"
+            android:syncable="true"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

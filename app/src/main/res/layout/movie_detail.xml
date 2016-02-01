@@ -36,6 +36,31 @@
             android:layout_weight="1"
             android:weightSum="3">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/favImageButton"
+                    android:src="@android:drawable/btn_star"
+                    android:contentDescription="Click to Favorite"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Favorite"
+                    android:id="@+id/textView2"
+                    android:layout_toRightOf="@id/favImageButton"
+                    android:textColor="#ffffff"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/textReleaseDate"
                 android:layout_width="match_parent"

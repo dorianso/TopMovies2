@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
 import pottitrain.orianapps.topmovies2.Adapters.MainAdapter;
 import pottitrain.orianapps.topmovies2.Helpers.DataHelper;
 import pottitrain.orianapps.topmovies2.Fragments.MovieDetailFragment;
@@ -26,10 +27,11 @@ import retrofit.Response;
 import java.io.IOException;
 
 
-public class MovieListActivity extends AppCompatActivity {
+public class MovieGridListActivity extends AppCompatActivity {
     private boolean twoPane;
     private DataHelper dataHelper;
     SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +39,8 @@ public class MovieListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-         // Instantiate shared preferences
-                sharedPref = getPreferences(Context.MODE_PRIVATE);
+        // Instantiate shared preferences
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
         //Check if two pane layout is used
         if (findViewById(R.id.frame_movie_detail) != null) {
             twoPane = true;
@@ -122,7 +124,7 @@ public class MovieListActivity extends AppCompatActivity {
 
     }
 
-    private void setOnClickListeners(GridView gridView){
+    private void setOnClickListeners(GridView gridView) {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
