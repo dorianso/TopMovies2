@@ -14,7 +14,7 @@ public class MoviesDBHelper extends SQLiteOpenHelper {
 
     //name & version
     private static final String DATABASE_NAME = "favmovies.db";
-    private static final int DATABASE_VERSION = 20;
+    private static final int DATABASE_VERSION = 1;
 
     public MoviesDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,16 +25,14 @@ public class MoviesDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " +
                 MoviesContract.Favorite_Entry.TABLE_FAV_MOVIES +
-                "(" + MoviesContract.Favorite_Entry._ID +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                MoviesContract.Favorite_Entry.MOVIEID + " TEXT NOT NULL, " +
-                MoviesContract.Favorite_Entry.OVERVIEW + " TEXT NOT NULL, " +
-                MoviesContract.Favorite_Entry.TITLE + " TEXT NOT NULL, " +
-                MoviesContract.Favorite_Entry.VOTE + " TEXT NOT NULL, " +
-                MoviesContract.Favorite_Entry.POSTERPATH + " TEXT NOT NULL, " +
-                MoviesContract.Favorite_Entry.SAVEDREVIEW + " TEXT NOT NULL, " +
-                MoviesContract.Favorite_Entry.SAVETRAILERURL + " TEXT NOT NULL, " +
-                MoviesContract.Favorite_Entry.RELEASEDATE + " TEXT NOT NULL);";
+                "(" + MoviesContract.Favorite_Entry.MOVIEID + " TEXT, " +
+                MoviesContract.Favorite_Entry.OVERVIEW + " TEXT, " +
+                MoviesContract.Favorite_Entry.TITLE + " TEXT, " +
+                MoviesContract.Favorite_Entry.VOTE + " TEXT, " +
+                MoviesContract.Favorite_Entry.POSTERPATH + " TEXT, " +
+                MoviesContract.Favorite_Entry.SAVEDREVIEW + " TEXT, " +
+                MoviesContract.Favorite_Entry.SAVETRAILERURL + " TEXT, " +
+                MoviesContract.Favorite_Entry.RELEASEDATE + " TEXT);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_MOVIE_TABLE);
     }

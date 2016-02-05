@@ -1,7 +1,10 @@
-package pottitrain.orianapps.topmovies2.JsonModel;
+package pottitrain.orianapps.topmovies2.Models;
 
 /**
  * Created by claudiusouca on 1/14/16.
+ * http://www.jsonschema2pojo.org/ ---> Used for all models to create Pojo
+ *                              |
+ *                              |-----> Time Saver!
  */
 
 import com.google.gson.annotations.Expose;

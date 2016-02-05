@@ -12,7 +12,7 @@ import android.util.Log;
 
 /**
  * Created by claudiusouca on 1/28/16.
- * Part of the code was used from examples online
+ * Code was re-used from Udacity's Github templates
  */
 public class MoviesProvider  extends ContentProvider {
         private static final String LOG_TAG = MoviesProvider.class.getSimpleName();
@@ -82,7 +82,7 @@ public class MoviesProvider  extends ContentProvider {
                     retCursor = mOpenHelper.getReadableDatabase().query(
                             MoviesContract.Favorite_Entry.TABLE_FAV_MOVIES,
                             projection,
-                            MoviesContract.Favorite_Entry._ID + " = ?",
+                            MoviesContract.Favorite_Entry.MOVIEID + " = ?",
                             new String[] {String.valueOf(ContentUris.parseId(uri))},
                             null,
                             null,
@@ -137,7 +137,7 @@ public class MoviesProvider  extends ContentProvider {
                     break;
                 case MOVIE_WITH_ID:
                     numDeleted = db.delete(MoviesContract.Favorite_Entry.TABLE_FAV_MOVIES,
-                            MoviesContract.Favorite_Entry._ID + " = ?",
+                            MoviesContract.Favorite_Entry.MOVIEID + " = ?",
                             new String[]{String.valueOf(ContentUris.parseId(uri))});
                     // reset _ID
                     db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" +

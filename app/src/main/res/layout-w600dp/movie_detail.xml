@@ -1,86 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+
+<LinearLayout
     android:id="@+id/movie_detail"
-    tools:context=".Fragments.MovieDetailFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#424242"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical"
+    tools:context=".Fragments.MovieDetailFragment"
+    >
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-    <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:id="@+id/topLayer">
+
 
         <ImageView
             android:id="@+id/imagePoster"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleType="fitXY"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:nestedScrollingEnabled="false"
+            />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="7dp">
+            android:orientation="vertical"
+            android:padding="7dp"
+            >
 
-            <TextView
-                android:id="@+id/textTitle"
-                android:layout_width="175dp"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title Text"
-                android:textColor="@android:color/background_light"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                android:typeface="normal"/>
+                >
 
-            <TextView
-                android:id="@+id/textReleaseDate"
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="7dp"
-                android:text="Release Date"
-                android:textColor="@android:color/background_light"
-                android:textSize="17dp"/>
+                <com.like.LikeButton
+                    app:icon_type="star"
+                    app:icon_size="35dp"
+                    android:id="@+id/favImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonPlay"
+                    android:src="@android:drawable/ic_media_play"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Trailers Available"
+                    android:id="@+id/textTrailers"
+                    android:textColor="#ffffff"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textAverageVote"
-                android:layout_width="175dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="7dp"
                 android:text="Average Vote"
                 android:textColor="@android:color/background_light"
-                android:textSize="17dp"/>
+                android:textSize="17dp"
+                />
+
+            <TextView
+                android:id="@+id/textReleaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7dp"
+                android:text="Release Date"
+                android:textColor="@android:color/background_light"
+                android:textSize="17dp"
+                />
+
         </LinearLayout>
 
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:id="@+id/bottomLayer"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
+        android:background="#424242">
 
         <TextView
             android:id="@+id/textPlot"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollIndicators="right"
+            android:layout_height="wrap_content"
             android:text="Plot "
             android:textColor="#ffffff"
             android:textSize="17dp"
             android:textStyle="italic"
-            android:padding="7dp"
-            android:background="#424242"
-            android:layout_weight="1"
-            android:layout_gravity="fill_vertical"/>
+            android:scrollbars="vertical"
+            android:layout_margin="7dp"/>
 
+        <View
+            android:layout_height="3dp"
+            android:layout_width="fill_parent"
+            android:background="#90909090"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:id="@+id/divider"/>
+
+        <TextView
+            android:id="@+id/textDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Reviews Available"
+            android:textColor="#ffffff"
+            android:layout_margin="7dp"/>
 
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>
 

@@ -17,6 +17,8 @@ import retrofit.Retrofit;
 /**
  * Created by claudiusouca on 1/15/16.
  */
+
+//Instantiates Retrofit service defined by serviceClass
 public class RetrofitService {
 
     Context context;
@@ -29,10 +31,9 @@ public class RetrofitService {
         //Logs retorift http requests.. used for testing only
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
         OkHttpClient httpClient = new OkHttpClient();
-
-
-        httpClient.interceptors().add(logging);  // <-- this is the important line!
+        httpClient.interceptors().add(logging);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.baseUrl))
@@ -40,8 +41,9 @@ public class RetrofitService {
                 .client(httpClient)
                 .build();
 
-        //Return Interface
+        //Returns Retrofit service
         return retrofit.create(serviceClass);
+
     }
 
 

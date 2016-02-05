@@ -19,7 +19,6 @@ public class MoviesContract {
         // table name
         public static final String TABLE_FAV_MOVIES = "favmovies";
         // columns
-        public static final String _ID = "_id";
         public static final String MOVIEID = "movieid";
         public static final String TITLE = "title";
         public static final String VOTE = "vote";

@@ -1,7 +1,11 @@
-package pottitrain.orianapps.topmovies2.JsonModel;
+package pottitrain.orianapps.topmovies2.Models;
 
 /**
  * Created by claudiusouca on 1/14/16.
+ *
+ * http://www.jsonschema2pojo.org/ ---> Used for all models to create Pojo
+ *                              |
+ *                              |-----> Time Saver!
  */
 
 import com.google.gson.annotations.Expose;
@@ -44,7 +48,7 @@ public class Movie {
     private String backdropPath;
     @SerializedName("popularity")
     @Expose
-    private float popularity;
+    private double popularity;
     @SerializedName("vote_count")
     @Expose
     private int voteCount;
@@ -53,7 +57,7 @@ public class Movie {
     private boolean video;
     @SerializedName("vote_average")
     @Expose
-    private float voteAverage;
+    private double voteAverage;
 
     /**
      * @return The posterPath
@@ -198,14 +202,14 @@ public class Movie {
     /**
      * @return The popularity
      */
-    public float getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 
     /**
      * @param popularity The popularity
      */
-    public void setPopularity(float popularity) {
+    public void setPopularity(double popularity) {
         this.popularity = popularity;
     }
 
@@ -240,14 +244,14 @@ public class Movie {
     /**
      * @return The voteAverage
      */
-    public float getVoteAverage() {
+    public double getVoteAverage() {
         return voteAverage;
     }
 
     /**
      * @param voteAverage The vote_average
      */
-    public void setVoteAverage(float voteAverage) {
+    public void setVoteAverage(double voteAverage) {
         this.voteAverage = voteAverage;
     }
 }

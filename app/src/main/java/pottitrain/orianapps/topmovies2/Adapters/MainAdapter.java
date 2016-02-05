@@ -32,7 +32,10 @@ public class MainAdapter extends ArrayAdapter {
 
     @Override
     public int getCount() {
-        return imageUrls.size();
+        if (imageUrls != null && imageUrls.size() > 0) {
+            return imageUrls.size();
+        }
+        else return -1;
     }
 
     @Override
@@ -47,14 +50,14 @@ public class MainAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
+        //Inflate View
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (view == null) {
             view = inflater.inflate(R.layout.movie_poster_content, viewGroup, false);
-
         }
-
+        // Open Source Libraries are the best! :)
         Picasso.with(context)
                 .load(context.getResources().getString(R.string.imageBaseUrl) + imageUrls.get(position))
                 .into((ImageView) view);

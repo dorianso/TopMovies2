@@ -5,18 +5,22 @@
     <string name="baseUrl">http://api.themoviedb.org</string>
     <string name="imageBaseUrl">http://image.tmdb.org/t/p/w342</string>
     <!--Enter API Key Below -->
-    <string name="key"></string>
+    <string name="key">f2b09135edaec7a70b9913117d275a27</string>
 
     <string name="sortByVote">vote_average.desc</string>
     <string name="sortByPopular">popularity.desc</string>
+    <string name="sortByFavorite">favorite</string>
 
     <string name="sharedprefsort">sortorder</string>
     <string name="errorConnection">Sorry :( there was an error fetching data</string>
 
     <string name="title_popular">Sort By Popularity</string>
     <string name="title_ratings">Sort By Ratings</string>
+    <string name="title_favorites">Sort By Favorites</string>
 
     <string name="youtubeBaseUrl">http://www.youtube.com/watch?v=</string>
+
+
 </resources>
 
 

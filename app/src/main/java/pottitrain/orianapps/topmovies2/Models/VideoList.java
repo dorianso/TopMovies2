@@ -1,4 +1,4 @@
-package pottitrain.orianapps.topmovies2.JsonModel;
+package pottitrain.orianapps.topmovies2.Models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by claudiusouca on 1/22/16.
+ * http://www.jsonschema2pojo.org/ ---> Used for all models to create Pojo
+ *                              |
+ *                              |-----> Time Saver!
  */
 public class VideoList {
 

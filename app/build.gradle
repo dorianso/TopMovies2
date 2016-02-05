@@ -35,4 +35,6 @@ dependencies {
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
 
     compile 'com.android.support:palette-v7:21.0.+'
+
+    compile 'com.github.jd-alexander:LikeButton:0.1.8'
 }

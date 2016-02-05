@@ -10,14 +10,21 @@ import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.graphics.Palette;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -25,12 +32,11 @@ import java.util.List;
 import pottitrain.orianapps.topmovies2.Activities.MovieDetailActivity;
 import pottitrain.orianapps.topmovies2.Activities.MovieGridListActivity;
 import pottitrain.orianapps.topmovies2.Helpers.MoviesContract;
-import pottitrain.orianapps.topmovies2.Helpers.MoviesProvider;
 import pottitrain.orianapps.topmovies2.Interfaces.TMDBInterface;
-import pottitrain.orianapps.topmovies2.JsonModel.Review;
-import pottitrain.orianapps.topmovies2.JsonModel.ReviewList;
-import pottitrain.orianapps.topmovies2.JsonModel.Video;
-import pottitrain.orianapps.topmovies2.JsonModel.VideoList;
+import pottitrain.orianapps.topmovies2.Models.Review;
+import pottitrain.orianapps.topmovies2.Models.ReviewList;
+import pottitrain.orianapps.topmovies2.Models.Video;
+import pottitrain.orianapps.topmovies2.Models.VideoList;
 import pottitrain.orianapps.topmovies2.R;
 import pottitrain.orianapps.topmovies2.RetrofitService;
 import retrofit.Call;
@@ -43,23 +49,16 @@ import retrofit.Response;
  * on handsets.
  */
 public class MovieDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String TITLE = "TITLE";
-    public static final String POSTERPATH = "POSTERPATH";
-    public static final String OVERVIEW = "OVERVIEW";
-    public static final String VOTE = "VOTE";
-    public static final String RELEASEDATE = "RELEASEDATE";
-    public static final String ID = "ID";
 
     public static final int FIRST = 0;
+    private android.support.v7.widget.ShareActionProvider share;
+    private Intent shareIntent;
 
     private Activity activity;
     private CollapsingToolbarLayout appBarLayout;
     private Bundle bundle;
     private ImageView posterImage;
+
     private String movieid;
     private String title;
     private String vote;
@@ -82,6 +81,10 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shareIntent= new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        setHasOptionsMenu(true);
+
         activity = this.getActivity();
         appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
 
@@ -97,6 +100,15 @@ public class MovieDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movie_detail, container, false);
+        View divider = rootView.findViewById(R.id.divider);
+
+        // Get information from bundle, and set in detail view
+        movieid = bundle.getString(MoviesContract.Favorite_Entry.MOVIEID);
+        title = bundle.getString(MoviesContract.Favorite_Entry.TITLE);
+        posterPath = bundle.getString(MoviesContract.Favorite_Entry.POSTERPATH);
+        overview = bundle.getString(MoviesContract.Favorite_Entry.OVERVIEW);
+        vote = bundle.getString(MoviesContract.Favorite_Entry.VOTE);
+        releaseDate = bundle.getString(MoviesContract.Favorite_Entry.RELEASEDATE);
 
         GetReviewsTrailers getReviewsTrailers = new GetReviewsTrailers();
         getReviewsTrailers.execute();
@@ -105,20 +117,12 @@ public class MovieDetailFragment extends Fragment {
         posterImage = (ImageView) rootView.findViewById(R.id.imagePoster);
         TextView releaseDateView = (TextView) rootView.findViewById(R.id.textReleaseDate);
         TextView overviewView = (TextView) rootView.findViewById(R.id.textPlot);
+        overviewView.setMovementMethod(new ScrollingMovementMethod());
 
         TextView voteView = (TextView) rootView.findViewById(R.id.textAverageVote);
 
-
         // Set colors in detail view , dynamically, using Palette library
         View backgroundView = rootView.findViewById(R.id.movie_detail);
-
-        // Get information from bundle, and set in detail view
-        movieid = bundle.getString(ID);
-        title = bundle.getString(TITLE);
-        posterPath = bundle.getString(POSTERPATH);
-        overview = bundle.getString(OVERVIEW);
-        vote = bundle.getString(VOTE);
-        releaseDate = bundle.getString(RELEASEDATE);
 
         voteView.setText("Average Vote Rating : " + vote);
         releaseDateView.setText("Release Date : " + releaseDate);
@@ -137,9 +141,11 @@ public class MovieDetailFragment extends Fragment {
             Palette.Swatch swatch = pal.getVibrantSwatch();
 
             if (swatch != null) {
+                divider.setBackgroundColor(swatch.getRgb());
                 backgroundView.setBackgroundColor(swatch.getRgb());
                 voteView.setTextColor(swatch.getBodyTextColor());
                 releaseDateView.setTextColor(swatch.getBodyTextColor());
+
                 appBarLayout.setContentScrimColor(swatch.getRgb());
                 appBarLayout.setExpandedTitleColor(swatch.getTitleTextColor());
                 appBarLayout.setTitle(title);
@@ -150,41 +156,48 @@ public class MovieDetailFragment extends Fragment {
         return rootView;
     }
 
-    private class GetReviewsTrailers extends AsyncTask{
+    private class GetReviewsTrailers extends AsyncTask {
         //Create service
         TMDBInterface tmdbService = new RetrofitService(activity.getApplicationContext()).getService(TMDBInterface.class);
-        Call<ReviewList> reviews = tmdbService.loadMovieReview(Integer.valueOf(bundle.getString(ID)), activity.getString(R.string.key));
-        Call<VideoList> videos = tmdbService.loadMovieTrailers(Integer.valueOf(bundle.getString(ID)), activity.getString(R.string.key));
+        Call<ReviewList> reviews = tmdbService.loadMovieReview(Integer.valueOf(bundle.getString(MoviesContract.Favorite_Entry.MOVIEID)), activity.getString(R.string.key));
+        Call<VideoList> videos = tmdbService.loadMovieTrailers(Integer.valueOf(bundle.getString(MoviesContract.Favorite_Entry.MOVIEID)), activity.getString(R.string.key));
+
 
         List<Review> allReviews;
         List<Video> allVideos;
 
         @Override
         protected Object doInBackground(Object[] objects) {
-            try{
+            try {
                 Response<ReviewList> response = reviews.execute();
                 allReviews = response.body().getReviews();
                 Response<VideoList> response1 = videos.execute();
                 allVideos = response1.body().getVideos();
-            }
-            catch (Exception exception){
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
             return null;
         }
+
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            try{
+            try {
 
-                TextView details = (TextView) activity.findViewById(R.id.textDetails);
-                savedReview = allReviews.get(FIRST).getContent();
-                details.setText(savedReview);
+                if (allReviews.size() > 0) {
+                    TextView details = (TextView) activity.findViewById(R.id.textDetails);
+                    savedReview = allReviews.get(FIRST).getContent();
+                    details.setText(savedReview);
+                }
+                if (allVideos.size() > 0) {
+                    TextView trailer = (TextView) activity.findViewById(R.id.textTrailers);
+                    savedTrailerUrl = allVideos.get(FIRST).getSite() + " Trailer";
+                    trailer.setText(savedTrailerUrl);
 
-
-                TextView trailer = (TextView) activity.findViewById(R.id.textTrailers);
-                savedTrailerUrl = allVideos.get(FIRST).getSite() + " Trailer";
-                trailer.setText(savedTrailerUrl);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, (getString(R.string.youtubeBaseUrl)
+                            + allVideos.get(FIRST).getKey()).toString());
+                    setShareIntent(shareIntent);
+                }
 
                 ImageButton iButton = (ImageButton) getView().findViewById(R.id.buttonPlay);
                 iButton.setOnClickListener(new View.OnClickListener() {
@@ -195,35 +208,91 @@ public class MovieDetailFragment extends Fragment {
                     }
                 });
 
-                ImageButton favButton = (ImageButton) getView().findViewById(R.id.favImageButton);
-                favButton.setOnClickListener(new View.OnClickListener() {
+                LikeButton favButton = (LikeButton) getView().findViewById(R.id.favImageButton);
+
+                favButton.setOnLikeListener(new OnLikeListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void liked(LikeButton likeButton) {
                         addToFavorite();
+                        likeButton.setEnabled(false);
                     }
+
+                    @Override
+                    public void unLiked(LikeButton likeButton) {
+
+                    }
+
                 });
 
 
-            }catch (Exception exception){
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
-        private Uri addToFavorite(){
+
+        private Uri addToFavorite() {
             Uri uri;
             ContentValues contentValues = new ContentValues();
-            contentValues.put(MoviesContract.Favorite_Entry.MOVIEID,movieid);
-            contentValues.put(MoviesContract.Favorite_Entry.OVERVIEW,overview);
-            contentValues.put(MoviesContract.Favorite_Entry.RELEASEDATE,releaseDate);
-            contentValues.put(MoviesContract.Favorite_Entry.TITLE,title);
+            contentValues.put(MoviesContract.Favorite_Entry.MOVIEID, movieid);
+            contentValues.put(MoviesContract.Favorite_Entry.OVERVIEW, overview);
+            contentValues.put(MoviesContract.Favorite_Entry.RELEASEDATE, releaseDate);
+            contentValues.put(MoviesContract.Favorite_Entry.TITLE, title);
             contentValues.put(MoviesContract.Favorite_Entry.VOTE, vote);
             contentValues.put(MoviesContract.Favorite_Entry.POSTERPATH, posterPath);
-            contentValues.put(MoviesContract.Favorite_Entry.SAVEDREVIEW,savedReview);
+            contentValues.put(MoviesContract.Favorite_Entry.SAVEDREVIEW, savedReview);
             contentValues.put(MoviesContract.Favorite_Entry.SAVETRAILERURL, savedTrailerUrl);
 
-            uri = activity.getContentResolver().insert(MoviesContract.Favorite_Entry.CONTENT_URI,contentValues );
+            uri = activity.getContentResolver().insert(MoviesContract.Favorite_Entry.CONTENT_URI, contentValues);
+
+            System.out.println(" URI VALUE IS " + uri.toString());
             return uri;
+
         }
+
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        System.out.println("THe id is " + id);
+        if (id == android.R.id.home) {
+            System.out.println(" IN BACKBUTTON");
+            getActivity().navigateUpTo(new Intent(getActivity(), MovieGridListActivity.class));
+            return true;
+        }
+        if(id == android.R.id.shareText){
+            System.out.println(" IN SHARE");
+            // Now get the ShareActionProvider from the item
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        // Inflate the menu resource
+        inflater.inflate(R.menu.menu_share, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        // Retrieve the share menu item
+        MenuItem shareItem = menu.findItem(R.id.menu_item_share);
+        share = (android.support.v7.widget.ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        //share.setShareIntent(shareIntent);
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (share != null) {
+            share.setShareIntent(shareIntent);
+        }
+    }
 }

@@ -12,4 +12,10 @@
         android:orderInCategory="200"
         android:title="@string/title_ratings"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_settings_byfavorites"
+        android:orderInCategory="300"
+        android:title="@string/title_favorites"
+        app:showAsAction="never"/>
+
 </menu>
