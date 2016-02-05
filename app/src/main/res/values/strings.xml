@@ -5,7 +5,7 @@
     <string name="baseUrl">http://api.themoviedb.org</string>
     <string name="imageBaseUrl">http://image.tmdb.org/t/p/w342</string>
     <!--Enter API Key Below -->
-    <string name="key">f2b09135edaec7a70b9913117d275a27</string>
+    <string name="key"></string>
 
     <string name="sortByVote">vote_average.desc</string>
     <string name="sortByPopular">popularity.desc</string>
