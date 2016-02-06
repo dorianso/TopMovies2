@@ -126,7 +126,7 @@
             android:id="@+id/divider"/>
 
         <TextView
-            android:id="@+id/textDetails"
+            android:id="@+id/textReview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="No Reviews Available"

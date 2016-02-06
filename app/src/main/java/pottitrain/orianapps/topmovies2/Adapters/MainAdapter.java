@@ -18,15 +18,14 @@ import pottitrain.orianapps.topmovies2.R;
  */
 public class MainAdapter extends ArrayAdapter {
 
-    ArrayList<String> imageUrls;
-    Context context;
+    private ArrayList<String> imageUrls;
+    private Context context;
 
 
     public MainAdapter(Context context, ArrayList<String> imageUrls) {
         super(context, R.layout.movie_poster_content, imageUrls);
         this.imageUrls = imageUrls;
         this.context = context;
-
     }
 
 

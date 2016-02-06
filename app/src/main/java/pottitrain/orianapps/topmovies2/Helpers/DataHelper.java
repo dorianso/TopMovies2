@@ -28,6 +28,7 @@ public class DataHelper {
 
         cursor.moveToFirst();
         //Iterate through rows and store movie info into Movie objects
+
         do {
             //Create movie object to store info
             Movie movie = new Movie();
@@ -52,10 +53,10 @@ public class DataHelper {
     }
 
 
-
+    ArrayList<String> urls = new ArrayList<>();
     //Return posterUrls from each movie
     public ArrayList<String> getAllPosterUrls(List<Movie> movies) {
-        ArrayList<String> urls = new ArrayList<>();
+
         if (movies != null) {
 
             for (Movie movie : movies) {

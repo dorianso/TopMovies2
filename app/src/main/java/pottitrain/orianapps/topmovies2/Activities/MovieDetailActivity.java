@@ -1,16 +1,9 @@
 package pottitrain.orianapps.topmovies2.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.support.v7.widget.ShareActionProvider;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.ShareActionProvider;
-
 import pottitrain.orianapps.topmovies2.Fragments.MovieDetailFragment;
 import pottitrain.orianapps.topmovies2.R;
 

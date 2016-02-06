@@ -40,12 +40,11 @@ public class MovieGridListActivity extends AppCompatActivity implements MovieLis
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-
-        // Instantiate shared preferences
+        //Instantiate shared preferences
         sharedPref = getPreferences(Context.MODE_PRIVATE);
 
-        //Check if two pane layout is used
-        twoPane = findViewById(R.id.frame_movie_detail) != null ? true : false;
+        //Check if two pane layout is used,
+        twoPane = findViewById(R.id.frame_movie_detail) != null ;
 
         //Display movies in Grid
         displayMovies();
@@ -126,7 +125,7 @@ public class MovieGridListActivity extends AppCompatActivity implements MovieLis
 
     @Override
     public void displayMovies(List<Movie> movieList, ArrayList<String> posterUrl) {
-        movies = movieList;
+        this.movies = movieList;
         try {
             //Initialize and populate grid with Poster Images
             GridView gridView = (GridView) findViewById(R.id.movie_list);
@@ -142,7 +141,6 @@ public class MovieGridListActivity extends AppCompatActivity implements MovieLis
         }
 
     }
-
 
     private String getSharedPref() {
         //Return sort prefernce or the default: "sort by popular"

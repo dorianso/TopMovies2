@@ -59,7 +59,7 @@ public class MovieDetailFragment extends Fragment implements ReviewTrailerListen
     private String posterPath;
     private String savedReview;
     private String savedTrailerUrl;
-
+    TextView reviewView;
     View rootView;
 
     /**
@@ -74,7 +74,7 @@ public class MovieDetailFragment extends Fragment implements ReviewTrailerListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this.getActivity();
-        //Sets opiton menu to true *Required in Fragment*
+        //Sets option menu to true *Required in Fragment*
         setHasOptionsMenu(true);
 
         shareIntent = new Intent(Intent.ACTION_SEND);
@@ -91,6 +91,7 @@ public class MovieDetailFragment extends Fragment implements ReviewTrailerListen
         overview = bundle.getString(MoviesContract.Favorite_Entry.OVERVIEW);
         vote = bundle.getString(MoviesContract.Favorite_Entry.VOTE);
         releaseDate = bundle.getString(MoviesContract.Favorite_Entry.RELEASEDATE);
+
 
     }
 
@@ -110,6 +111,8 @@ public class MovieDetailFragment extends Fragment implements ReviewTrailerListen
         overviewView.setMovementMethod(new ScrollingMovementMethod());
         TextView voteView = (TextView) rootView.findViewById(R.id.textAverageVote);
         View backgroundView = rootView.findViewById(R.id.movie_detail);
+        reviewView = (TextView) rootView.findViewById(R.id.textReview);
+        reviewView.setText(" TESTING IF WE HAVE IT !!!");
 
         // Set colors in detail view , dynamically, using Palette library
         voteView.setText("Rating : " + vote);
@@ -188,20 +191,17 @@ public class MovieDetailFragment extends Fragment implements ReviewTrailerListen
             savedTrailerUrl = (getString(R.string.youtubeBaseUrl) + trailerVideo.get(FIRST).getKey().toString());
             System.out.println(" Trailer is " + savedTrailerUrl);
         }
-
-        savedReview = (reviewList != null && reviewList.size() > 0) ? reviewList.get(FIRST).getContent() : " ";
-
         initViews();
+        savedReview = (reviewList != null && reviewList.size() > 0) ? reviewList.get(FIRST).getContent().toString() : " No Review ";
+        reviewView.setText(savedReview);
+
     }
 
     //Initialize buttons and set share intents
     public void initViews() {
 
-        TextView details = (TextView) rootView.findViewById(R.id.textReview);
-        details.setText("Review : "+ "\n" + "\t\t\t" + savedReview);
 
-        shareIntent.putExtra(Intent.EXTRA_TEXT, savedTrailerUrl);
-        setShareIntent(shareIntent);
+        //reviews.setText("Review : "+ "\n" + "\t\t\t" + savedReview);
 
         ImageButton iButton = (ImageButton) rootView.findViewById(R.id.buttonPlay);
         iButton.setOnClickListener(new View.OnClickListener() {
@@ -226,9 +226,12 @@ public class MovieDetailFragment extends Fragment implements ReviewTrailerListen
 
         });
 
+        shareIntent.putExtra(Intent.EXTRA_TEXT, savedTrailerUrl);
+        setShareIntent(shareIntent);
+
     }
 
-    //Create movie and add to favotire movies/database
+    //Create movie and add to favorite movies/database
     private Uri addToFavorite() {
         Uri uri;
         ContentValues contentValues = new ContentValues();
@@ -242,6 +245,7 @@ public class MovieDetailFragment extends Fragment implements ReviewTrailerListen
         contentValues.put(MoviesContract.Favorite_Entry.SAVETRAILERURL, savedTrailerUrl);
 
         uri = activity.getContentResolver().insert(MoviesContract.Favorite_Entry.CONTENT_URI, contentValues);
+        System.out.println(" adding " + uri);
         return uri;
 
     }

@@ -3,8 +3,10 @@ package pottitrain.orianapps.topmovies2.AsyncTasks;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import pottitrain.orianapps.topmovies2.Helpers.DataHelper;
@@ -16,6 +18,7 @@ import pottitrain.orianapps.topmovies2.Models.MovieList;
 import pottitrain.orianapps.topmovies2.R;
 import pottitrain.orianapps.topmovies2.RetrofitService;
 import retrofit.Call;
+import retrofit.Response;
 
 
 /**
@@ -50,10 +53,14 @@ public class GetMovies extends AsyncTask {
                 //Load full results using the sort order from pref  as the parameter in the method
                 Call<MovieList> listofResults = tmdbService.loadTopMovies(sort, key);
                 try {
-                    movieList = listofResults.execute().body().getMovies();
+                    Response<MovieList> response =listofResults.execute();
+                    //If response is null object create new List of movies
+                    movieList = (response.body() != null) ? response.body().getMovies() : new ArrayList<Movie>();
+                    System.out.println("movie list is " + movieList.size());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
         }
 
         return null;
@@ -67,7 +74,9 @@ public class GetMovies extends AsyncTask {
                 null,
                 null);
         try {
-            dataHelper.setFavoritesMovies(cursor);
+            if(cursor.getCount()>0){
+                dataHelper.setFavoritesMovies(cursor);
+            }
             movieList = dataHelper.getFavoritesMovies();
         } catch (Exception exception) {
             exception.printStackTrace();
