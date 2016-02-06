@@ -51,14 +51,21 @@ public class DataHelper {
         return favoriteMovies;
     }
 
+
+
+    //Return posterUrls from each movie
     public ArrayList<String> getAllPosterUrls(List<Movie> movies) {
-
         ArrayList<String> urls = new ArrayList<>();
+        if (movies != null) {
 
-        for (Movie movie : movies) {
-            urls.add(movie.getPosterPath());
+            for (Movie movie : movies) {
+                urls.add(movie.getPosterPath());
+            }
+
         }
+
 
         return urls;
     }
+
 }

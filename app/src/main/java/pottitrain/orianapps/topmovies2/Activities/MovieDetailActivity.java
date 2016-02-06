@@ -28,7 +28,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Set layout
         setContentView(R.layout.activity_movie_detail);
 
         //Set toolbar
@@ -37,6 +36,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         // Enable the Up button in the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         if (savedInstanceState == null) {
             //Get bundle,to pass along to fragment

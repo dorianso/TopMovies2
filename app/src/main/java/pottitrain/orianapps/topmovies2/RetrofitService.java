@@ -30,7 +30,8 @@ public class RetrofitService {
     public <T>T getService(Class<T> serviceClass) {
         //Logs retorift http requests.. used for testing only
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
+        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
         OkHttpClient httpClient = new OkHttpClient();
         httpClient.interceptors().add(logging);
