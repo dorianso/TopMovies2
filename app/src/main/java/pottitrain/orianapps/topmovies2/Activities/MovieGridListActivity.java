@@ -7,18 +7,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.google.gson.Gson;
+
 import pottitrain.orianapps.topmovies2.Adapters.MainAdapter;
 import pottitrain.orianapps.topmovies2.AsyncTasks.GetMovies;
 import pottitrain.orianapps.topmovies2.Fragments.MovieDetailFragment;
+import pottitrain.orianapps.topmovies2.Helpers.DataHelper;
 import pottitrain.orianapps.topmovies2.Helpers.MoviesContract;
 import pottitrain.orianapps.topmovies2.Interfaces.MovieListener;
 import pottitrain.orianapps.topmovies2.Models.Movie;
+import pottitrain.orianapps.topmovies2.Models.MovieList;
 import pottitrain.orianapps.topmovies2.R;
 
 import java.util.ArrayList;
@@ -29,12 +34,15 @@ public class MovieGridListActivity extends AppCompatActivity implements MovieLis
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private List<Movie> movies;
+    Context context;
+    DataHelper dataHelper ;
+    MovieList savedMovieList = new MovieList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
-
+        this.context = this;
         //Get and set our toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -44,25 +52,64 @@ public class MovieGridListActivity extends AppCompatActivity implements MovieLis
         sharedPref = getPreferences(Context.MODE_PRIVATE);
 
         //Check if two pane layout is used,
-        twoPane = findViewById(R.id.frame_movie_detail) != null ;
+        twoPane = findViewById(R.id.frame_movie_detail) != null;
+        dataHelper = new DataHelper();
 
-        //Display movies in Grid
-        displayMovies();
+        if(savedInstanceState != null){
+            String jsonObj = savedInstanceState.getString("savedMovies");
+            MovieList movieList = new Gson().fromJson(jsonObj, MovieList.class);
+            displayMovies(movieList.getMovies(), dataHelper.getAllPosterUrls(movieList.getMovies()));
+        }
+        else{
+            displayMovies();
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    protected void onSaveInstanceState(Bundle outState) {
+        //Convert List<Movies> to MoviesList object to JsonObject and save in bundle as string
+        String jsonObj = new Gson().toJson(savedMovieList);
+        outState.putString("savedMovies", jsonObj);
+        Log.d("IN ", "OnSave");
+        super.onSaveInstanceState(outState);
+    }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        String jsonObj = savedInstanceState.getString("savedMovies");
+        MovieList movieList = new Gson().fromJson(jsonObj, MovieList.class);
+        displayMovies(movieList.getMovies(), dataHelper.getAllPosterUrls(movieList.getMovies()));
+        Log.d("IN ", "onRestore");
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    // TEST ON SAVE
+    protected void onPause() {
+        Log.d("IN ","onPause");
+        super.onPause();
+    }
+    protected void onResume() {
+        Log.d("IN ", "onResume");
+        super.onResume();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         //Save sort order preference in SharedPreference, to be use if app closes or gets terminated
         switch (id) {
             case R.id.action_settings_bypopular:
-                putSharedPref(getString(R.string.sortByPopular));
-                displayMovies();
+                if (!getSharedPref().equalsIgnoreCase(getString(R.string.sortByPopular))) {
+                    putSharedPref(getString(R.string.sortByPopular));
+                    displayMovies();
+                }
                 return true;
             case R.id.action_settings_byratings:
-                putSharedPref(getString(R.string.sortByVote));
-                displayMovies();
+                if (!getSharedPref().equalsIgnoreCase(getString(R.string.sortByVote))) {
+                    putSharedPref(getString(R.string.sortByVote));
+                    displayMovies();
+                }
                 return true;
             case R.id.action_settings_byfavorites:
                 // only if Favorite list is not displayed, show it
@@ -88,7 +135,7 @@ public class MovieGridListActivity extends AppCompatActivity implements MovieLis
         getMovies.execute();
     }
 
-    private void setOnClickListeners(GridView gridView) {
+    private void setOnClickListeners(GridView gridView, final List<Movie> movies) {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -110,11 +157,10 @@ public class MovieGridListActivity extends AppCompatActivity implements MovieLis
                             .replace(R.id.frame_movie_detail, fragment)
                             .commit();
                 } else {
-                    //If phone/onepane start activity
-                    Context context = view.getContext();
+
+                    // /If phone/onepane start activity
                     Intent intent = new Intent(context, MovieDetailActivity.class);
                     intent.putExtras(bundle);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
 
@@ -125,14 +171,14 @@ public class MovieGridListActivity extends AppCompatActivity implements MovieLis
 
     @Override
     public void displayMovies(List<Movie> movieList, ArrayList<String> posterUrl) {
-        this.movies = movieList;
+        savedMovieList.setMovies(movieList);
         try {
             //Initialize and populate grid with Poster Images
             GridView gridView = (GridView) findViewById(R.id.movie_list);
             gridView.setAdapter(new MainAdapter(getApplicationContext(), posterUrl));
 
             //Set gridview click listeners
-            setOnClickListeners(gridView);
+            setOnClickListeners(gridView, movieList);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -152,6 +198,5 @@ public class MovieGridListActivity extends AppCompatActivity implements MovieLis
         editor.putString(getString(R.string.sharedprefsort), stringPref);
         editor.commit();
     }
-
 
 }

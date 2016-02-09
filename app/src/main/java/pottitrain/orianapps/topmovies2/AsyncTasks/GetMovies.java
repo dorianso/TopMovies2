@@ -53,7 +53,7 @@ public class GetMovies extends AsyncTask {
                 //Load full results using the sort order from pref  as the parameter in the method
                 Call<MovieList> listofResults = tmdbService.loadTopMovies(sort, key);
                 try {
-                    Response<MovieList> response =listofResults.execute();
+                    Response<MovieList> response = listofResults.execute();
                     //If response is null object create new List of movies
                     movieList = (response.body() != null) ? response.body().getMovies() : new ArrayList<Movie>();
                     System.out.println("movie list is " + movieList.size());
@@ -88,8 +88,20 @@ public class GetMovies extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        //Callback display movies
-        movieListener.displayMovies(movieList, dataHelper.getAllPosterUrls(movieList));
+        if(movieList != null && movieList.size() > 0){
+            if(sort.equalsIgnoreCase(context.getString(R.string.sortByPopular))){
+                //Flag that popular movies have been loaded
+                dataHelper.setPopularLoaded(true);
+            }
+            else {
+                // Flag that voted movies have been loaded
+                dataHelper.setVotedLoaded(true);
+            }
+            //Callback display movies
+            movieListener.displayMovies(movieList, dataHelper.getAllPosterUrls(movieList));
+
+        }
+
     }
 
 }

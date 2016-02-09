@@ -12,7 +12,14 @@ import pottitrain.orianapps.topmovies2.Models.Movie;
  */
 public class DataHelper {
 
+    boolean PopularLoaded = false;
+    boolean VotedLoaded = false;
+
+    ArrayList<String> urls = new ArrayList<>();
+
     private List<Movie> favoriteMovies;
+    private List<Movie> popularMovies;
+    private List<Movie> topVotedMovies;
 
     public void setFavoritesMovies(Cursor cursor) {
         //Init favorites list
@@ -52,8 +59,24 @@ public class DataHelper {
         return favoriteMovies;
     }
 
+    public List<Movie> getPopularMovies() {
+        return popularMovies;
+    }
 
-    ArrayList<String> urls = new ArrayList<>();
+    public void setPopularMovies(List<Movie> popularMovies) {
+        this.popularMovies = popularMovies;
+        setPopularLoaded(true);
+    }
+
+    public List<Movie> getTopVotedMovies() {
+        return topVotedMovies;
+    }
+
+    public void setTopVotedMovies(List<Movie> topVotedMovies) {
+        this.topVotedMovies = topVotedMovies;
+        setVotedLoaded(true);
+    }
+
     //Return posterUrls from each movie
     public ArrayList<String> getAllPosterUrls(List<Movie> movies) {
 
@@ -69,4 +92,19 @@ public class DataHelper {
         return urls;
     }
 
+    public boolean isPopularLoaded() {
+        return PopularLoaded;
+    }
+
+    public void setPopularLoaded(boolean popularLoaded) {
+        PopularLoaded = popularLoaded;
+    }
+
+    public boolean isVotedLoaded() {
+        return VotedLoaded;
+    }
+
+    public void setVotedLoaded(boolean votedLoaded) {
+        VotedLoaded = votedLoaded;
+    }
 }

@@ -112,7 +112,7 @@ public class MovieDetailFragment extends Fragment implements ReviewTrailerListen
         TextView voteView = (TextView) rootView.findViewById(R.id.textAverageVote);
         View backgroundView = rootView.findViewById(R.id.movie_detail);
         reviewView = (TextView) rootView.findViewById(R.id.textReview);
-        reviewView.setText(" TESTING IF WE HAVE IT !!!");
+
 
         // Set colors in detail view , dynamically, using Palette library
         voteView.setText("Rating : " + vote);
